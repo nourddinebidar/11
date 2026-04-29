@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دار لوكس | لوحة التحكم للمشرف</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Cairo for Arabic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f1f5f9;
+        }
+        .active-tab {
+            background-color: #d97706;
+            color: white !important;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
+        }
+        .sidebar-link:hover:not(.active-tab) {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #fbbf24;
+        }
+    </style>
+</head>
+<body class="text-slate-800 overflow-x-hidden">
+
+    <!-- ==================== شاشة تسجيل الدخول ==================== -->
+    <div id="login-overlay" class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm z-50 flex items-center justify-center px-4">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-slate-100 transform transition-all duration-300">
+            <div class="bg-gradient-to-r from-amber-500 to-amber-600 px-6 py-8 text-center text-white relative">
+                <div class="w-16 h-16 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner">
+                    <i class="fa-solid fa-lock text-white"></i>
+                </div>
+                <h1 class="text-2xl font-extrabold tracking-tight">لوحة تحكم المشرف</h1>
+                <p class="text-amber-100 text-sm mt-1">الرجاء إدخال كلمة المرور للمتابعة</p>
+                <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-8 h-8 bg-white rotate-45 border-r border-b border-slate-100 hidden md:block"></div>
+            </div>
+            
+            <form id="login-form" class="p-6 md:p-8 space-y-4">
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-2">اسم المستخدم</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+                        <input type="text" id="username" value="admin" class="w-full pr-10 pl-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-right" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-2">كلمة المرور</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400">
+                            <i class="fa-solid fa-key"></i>
+                        </span>
+                        <input type="password" id="password" placeholder="أدخل كلمة المرور" class="w-full pr-10 pl-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-right" required>
+                    </div>
+                </div>
+                <div id="login-error" class="text-red-500 text-sm font-bold hidden text-center bg-red-50 p-2 rounded-lg">
+                    <i class="fa-solid fa-triangle-exclamation mr-1"></i> كلمة المرور أو اسم المستخدم غير صحيح!
+                </div>
+                
+                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-extrabold py-3.5 px-4 rounded-xl shadow-lg shadow-amber-500/20 transition-all flex items-center justify-center gap-2 text-lg">
+                    <span>تسجيل الدخول</span>
+                    <i class="fa-solid fa-arrow-left-long text-sm"></i>
+                </button>
+                <div class="text-center pt-2">
+                    <span class="text-xs text-slate-400 font-medium">كلمة المرور الافتراضية للتجربة: <span class="font-bold text-amber-600 select-all">admin123</span></span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== هيكل لوحة التحكم (مخفي قبل تسجيل الدخول) ==================== -->
+    <div id="admin-panel" class="hidden min-h-screen flex flex-col md:flex-row bg-slate-100">
+        
+        <!-- القائمة الجانبية (Sidebar) -->
+        <aside class="bg-slate-900 text-slate-400 w-full md:w-64 flex-shrink-0 z-40 border-l border-slate-800 flex flex-col">
+            <!-- الشعار -->
+            <div class="h-20 flex items-center justify-between px-6 bg-slate-950 border-b border-slate-800">
+                <a href="index.html" class="flex items-center gap-2">
+                    <i class="fa-solid fa-hotel text-2xl text-amber-500"></i>
+                    <span class="text-2xl font-extrabold tracking-tight text-white">DAR<span class="text-amber-500">LUXE</span></span>
+                </a>
+                <span class="bg-slate-800 text-amber-400 text-xs px-2 py-1 rounded font-bold uppercase tracking-wider">لوحة الأدمن</span>
+            </div>
+            
+            <!-- روابط التنقل -->
+            <nav class="flex-grow p-4 space-y-1 font-semibold text-base">
+                <button onclick="switchTab('dashboard')" id="tab-dashboard" class="sidebar-link w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-slate-400 active-tab transition-all">
+                    <i class="fa-solid fa-chart-pie text-lg w-6"></i>
+                    <span>الإحصائيات العامة</span>
+                </button>
+                
+                <button onclick="switchTab('properties')" id="tab-properties" class="sidebar-link w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-slate-400 transition-all">
+                    <i class="fa-solid fa-house-medical text-lg w-6"></i>
+                    <span>إضافة وإدارة العقارات</span>
+                </button>
+                
+                <button onclick="switchTab('leads')" id="tab-leads" class="sidebar-link w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-slate-400 transition-all relative">
+                    <i class="fa-solid fa-users-viewfinder text-lg w-6"></i>
+                    <span>طلبات الزوار والعملاء</span>
+                    <span id="leads-badge" class="absolute left-4 top-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full hidden animate-pulse">0</span>
+                </button>
+                
+                <button onclick="switchTab('settings')" id="tab-settings" class="sidebar-link w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-slate-400 transition-all">
+                    <i class="fa-solid fa-sliders text-lg w-6"></i>
+                    <span>إعدادات المدير</span>
+                </button>
+            </nav>
+            
+            <!-- تذييل القائمة الجانبية -->
+            <div class="p-4 border-t border-slate-800 bg-slate-950">
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Admin" class="w-10 h-10 rounded-xl border border-slate-700 object-cover">
+                    <div>
+                        <p class="text-white text-sm font-bold" id="admin-name-display">مدير الوكالة</p>
+                        <p class="text-xs text-emerald-400 flex items-center gap-1">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-ping"></span> متصل الآن
+                        </p>
+                    </div>
+                </div>
+                <button onclick="logout()" class="w-full bg-slate-800 hover:bg-red-500/10 hover:text-red-400 text-slate-400 font-bold py-2.5 rounded-xl border border-slate-700 transition flex items-center justify-center gap-2 text-sm">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>تسجيل الخروج</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- المحتوى الرئيسي (Main Content) -->
+        <div class="flex-grow flex flex-col overflow-y-auto max-h-screen">
+            
+            <!-- الشريط العلوي (Header bar) -->
+            <header class="bg-white h-20 shadow-sm border-b border-slate-200 px-6 flex items-center justify-between flex-shrink-0">
+                <div class="flex items-center gap-2">
+                    <h2 id="page-title" class="text-xl font-extrabold text-slate-800">الإحصائيات العامة</h2>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="index.html" target="_blank" class="text-slate-600 hover:text-amber-500 font-bold text-sm flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-4 py-2 rounded-xl transition">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                        <span>عرض الموقع</span>
+                    </a>
+                    <div class="h-8 w-px bg-slate-200"></div>
+                    <span class="text-slate-500 text-sm font-medium" id="current-date"></span>
+                </div>
+            </header>
+            
+            <!-- مساحة العمل الرئيسية (Workspace) -->
+            <main class="p-6 md:p-8 flex-grow">
+                
+                <!-- ==================== تبويب 1: الإحصائيات ==================== -->
+                <div id="section-dashboard" class="space-y-6">
+                    <!-- كروت الأرقام -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- العقارات -->
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between group">
+                            <div>
+                                <p class="text-sm font-bold text-slate-500">إجمالي العقارات</p>
+                                <h3 id="stat-properties-count" class="text-3xl font-extrabold text-slate-900 mt-1">0</h3>
+                                <p class="text-xs text-amber-600 font-semibold mt-2"><i class="fa-solid fa-circle text-[6px] mr-1"></i> معروضة على الموقع</p>
+                            </div>
+                            <div class="w-14 h-14 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-2xl group-hover:bg-amber-500 group-hover:text-white transition-all duration-300">
+                                <i class="fa-solid fa-house"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- الطلبات الجديدة -->
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between group">
+                            <div>
+                                <p class="text-sm font-bold text-slate-500">الطلبات الجديدة</p>
+                                <h3 id="stat-leads-new" class="text-3xl font-extrabold text-red-500 mt-1">0</h3>
+                                <p class="text-xs text-slate-400 font-semibold mt-2">بانتظار التواصل الآن</p>
+                            </div>
+                            <div class="w-14 h-14 rounded-2xl bg-red-100 text-red-500 flex items-center justify-center text-2xl group-hover:bg-red-500 group-hover:text-white transition-all duration-300">
+                                <i class="fa-solid fa-bell animate-swing"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- نقرات واتساب (مُحاكاة) -->
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between group">
+                            <div>
+                                <p class="text-sm font-bold text-slate-500">نقرات واتساب</p>
+                                <h3 id="stat-whatsapp-clicks" class="text-3xl font-extrabold text-emerald-500 mt-1">0</h3>
+                                <p class="text-xs text-emerald-600 font-semibold mt-2"><i class="fa-solid fa-circle-nodes mr-1"></i> أعلى مصدر للعملاء</p>
+                            </div>
+                            <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center text-2xl group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300">
+                                <i class="fa-brands fa-whatsapp text-3xl"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- إجمالي المعاملات المغلقة -->
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between group">
+                            <div>
+                                <p class="text-sm font-bold text-slate-500">عقارات تم بيعها</p>
+                                <h3 id="stat-leads-sold" class="text-3xl font-extrabold text-slate-900 mt-1">0</h3>
+                                <p class="text-xs text-slate-400 font-semibold mt-2">معاملات مكتملة بنجاح</p>
+                            </div>
+                            <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-500 flex items-center justify-center text-2xl group-hover:bg-indigo-500 group-hover:text-white transition-all duration-300">
+                                <i class="fa-solid fa-file-contract"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- التنبيه بالعملاء الجدد مع شارت/رسم توضيحي مصمم بالـ HTML والـ Tailwind -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                            <div class="flex items-center justify-between mb-6">
+                                <h4 class="text-lg font-extrabold text-slate-800">أداء العقارات حسب المدينة</h4>
+                                <span class="text-xs font-bold text-slate-400">إحصائية حية بناءً على المحتوى الحالي</span>
+                            </div>
+                            <!-- رسم بياني يدوي (CSS) لتوزيع العقارات والطلبات -->
+                            <div class="space-y-4" id="chart-container">
+                                <!-- سيتم توليد الأعمدة ديناميكياً باستخدام الـ JavaScript بناء على البيانات -->
+                            </div>
+                        </div>
+
+                        <!-- كرت سرعة الاستجابة -->
+                        <div class="bg-slate-900 text-white p-6 rounded-2xl shadow-sm relative overflow-hidden">
+                            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-500/10 to-transparent"></div>
+                            <h4 class="text-lg font-extrabold text-slate-100 relative z-10">معدل سرعة الاستجابة</h4>
+                            <p class="text-slate-400 text-xs mt-1 relative z-10">منذ اللحظة التي يضغط فيها العميل على الواتساب</p>
+                            
+                            <div class="mt-10 flex flex-col items-center justify-center relative z-10">
+                                <div class="relative w-40 h-40 flex items-center justify-center">
+                                    <!-- دائرة تقدم بنسبة 95% -->
+                                    <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                                        <path class="text-slate-800" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                        <path class="text-amber-500 animate-[dash_1s_ease-in-out]" stroke-dasharray="92, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    </svg>
+                                    <div class="absolute text-center">
+                                        <p class="text-4xl font-black text-amber-500">4.5</p>
+                                        <p class="text-xs font-bold text-slate-400 mt-1">دقائق فقط</p>
+                                    </div>
+                                </div>
+                                <p class="text-sm font-bold text-slate-200 mt-6 text-center">
+                                    <i class="fa-solid fa-circle-check text-emerald-400 mr-1"></i> أداء ممتاز مقارنة بالمتوسط العام (15 دقيقة)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== تبويب 2: إدارة العقارات (إضافة وحذف) ==================== -->
+                <div id="section-properties" class="hidden space-y-8">
+                    
+                    <!-- نموذج إضافة عقار جديد -->
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
+                        <div class="flex items-center gap-2 border-b border-slate-100 pb-4 mb-6">
+                            <i class="fa-solid fa-plus-circle text-amber-500 text-xl"></i>
+                            <h3 class="text-lg font-extrabold text-slate-800">إضافة عقار جديد للموقع</h3>
+                        </div>
+                        
+                        <form id="add-property-form" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-bold text-slate-600 mb-2">عنوان العقار <span class="text-red-500">*</span></label>
+                                <input type="text" id="p-title" placeholder="مثال: فيلا عصرية فاخرة مطلة على الجبال" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-right" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-600 mb-2">السعر (بالدرهم المغربي) <span class="text-red-500">*</span></label>
+                                <div class="relative">
+                                    <input type="number" id="p-price" placeholder="مثال: 3200000" class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-right" required>
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-sm font-bold text-slate-400">د.م.</span>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-bold text-slate-600 mb-2">المدينة <span class="text-red-500">*</span></label>
+                                <select id="p-city" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 appearance-none">
+                                    <option value="مراكش">مراكش</option>
+                                    <option value="الدار البيضاء">الدار البيضاء</option>
+                                    <option value="طنجة">طنجة</option>
+                                    <option value="الرباط">الرباط</option>
+                                    <option value="أكادير">أكادير</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-600 mb-2">المنطقة الدقيقة</label>
+                                <input type="text" id="p-location" placeholder="مثال: جيليز، النخيل، المعاريف" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-right">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-600 mb-2">نوع العقار <span class="text-red-500">*</span></label>
+                                <select id="p-category" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 appearance-none">
+                                    <option value="villa">فيلا فاخرة</option>
+                                    <option value="apartment">شقة بريميوم</option>
+                                    <option value="riad">رياض تقليدي</option>
+                                    <option value="rent">عقار للإيجار</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-bold text-slate-600 mb-2">عدد غرف النوم <span class="text-red-500">*</span></label>
+                                <input type="number" id="p-beds" placeholder="مثال: 4" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-right" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-600 mb-2">عدد الحمامات <span class="text-red-500">*</span></label>
+                                <input type="number" step="0.5" id="p-baths" placeholder="مثال: 3.5" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-right" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-600 mb-2">المساحة (بالمتر المربع) <span class="text-red-500">*</span></label>
+                                <div class="relative">
+                                    <input type="number" id="p-area" placeholder="مثال: 220" class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-right" required>
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-sm font-bold text-slate-400">م²</span>
+                                </div>
+                            </div>
+
+                            <div class="md:col-span-3">
+                                <label class="block text-sm font-bold text-slate-600 mb-2">رابط صورة العقار (Image URL) <span class="text-red-500">*</span></label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400">
+                                        <i class="fa-solid fa-image"></i>
+                                    </span>
+                                    <input type="url" id="p-image" placeholder="مثال: https://images.unsplash.com/photo-..." class="w-full pr-10 pl-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-left dir-ltr" required>
+                                </div>
+                                <p class="text-xs text-slate-400 mt-1">يرجى وضع رابط لصورة عالية الجودة من (Unsplash) أو أي سيرفر رفع لصور العقار.</p>
+                            </div>
+
+                            <div class="md:col-span-3">
+                                <label class="block text-sm font-bold text-slate-600 mb-2">وصف قصير ومقنع للعقار</label>
+                                <textarea id="p-desc" rows="3" placeholder="اكتب تفاصيل جذابة وموجزة للعقار لجذب الزوار..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-right"></textarea>
+                            </div>
+
+                            <div class="md:col-span-3 flex justify-end">
+                                <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-extrabold py-3.5 px-10 rounded-xl shadow-lg shadow-amber-500/20 transition flex items-center gap-2 cursor-pointer">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                                    <span>إضافة العقار للموقع</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- جدول العقارات المضافة -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                        <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-table-list text-amber-500 text-xl"></i>
+                                <h3 class="text-lg font-extrabold text-slate-800">قائمة العقارات المعروضة حالياً</h3>
+                            </div>
+                            <span class="bg-slate-100 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-lg" id="property-table-count">0 عقارات</span>
+                        </div>
+                        
+                        <div class="overflow-x-auto w-full">
+                            <table class="w-full text-right border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold text-sm">
+                                        <th class="p-4 w-20 text-center">الصورة</th>
+                                        <th class="p-4">اسم العقار</th>
+                                        <th class="p-4">السعر</th>
+                                        <th class="p-4">المدينة / النوع</th>
+                                        <th class="p-4">المواصفات</th>
+                                        <th class="p-4 w-32 text-center">إدارة</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="properties-table-body" class="divide-y divide-slate-100 font-semibold text-slate-700">
+                                    <!-- العقارات يتم توليدها هنا بواسطة الـ JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ==================== تبويب 3: زبائن و زوار ==================== -->
+                <div id="section-leads" class="hidden space-y-6">
+                    
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                        <div class="p-6 border-b border-slate-100 flex items-center justify-between flex-wrap gap-4">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-address-book text-amber-500 text-xl"></i>
+                                <h3 class="text-lg font-extrabold text-slate-800">سجل العملاء المحتملين (Leads)</h3>
+                            </div>
+                            <!-- أزرار تصفية سريعة -->
+                            <div class="flex flex-wrap gap-2 text-xs">
+                                <button onclick="filterLeads('all')" id="lead-filter-all" class="bg-amber-500 text-white font-bold px-4 py-2 rounded-xl shadow-md shadow-amber-500/10 cursor-pointer">الكل</button>
+                                <button onclick="filterLeads('new')" id="lead-filter-new" class="bg-slate-50 hover:bg-red-50 text-slate-600 hover:text-red-500 border border-slate-200 font-bold px-4 py-2 rounded-xl cursor-pointer">جديد</button>
+                                <button onclick="filterLeads('contacted')" id="lead-filter-contacted" class="bg-slate-50 hover:bg-blue-50 text-slate-600 hover:text-blue-500 border border-slate-200 font-bold px-4 py-2 rounded-xl cursor-pointer">قيد التواصل</button>
+                                <button onclick="filterLeads('sold')" id="lead-filter-sold" class="bg-slate-50 hover:bg-emerald-50 text-slate-600 hover:text-emerald-500 border border-slate-200 font-bold px-4 py-2 rounded-xl cursor-pointer">تم البيع</button>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto w-full">
+                            <table class="w-full text-right border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold text-sm">
+                                        <th class="p-4">العميل</th>
+                                        <th class="p-4">رقم الهاتف</th>
+                                        <th class="p-4">العقار المهتم به</th>
+                                        <th class="p-4">التاريخ والوقت</th>
+                                        <th class="p-4 text-center">حالة الطلب</th>
+                                        <th class="p-4 text-center">إجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="leads-table-body" class="divide-y divide-slate-100 font-semibold text-slate-700">
+                                    <!-- طلبات الزوار تظهر هنا -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ==================== تبويب 4: إعدادات الأدمن ==================== -->
+                <div id="section-settings" class="hidden max-w-2xl mx-auto">
+                    
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
+                        <div class="flex items-center gap-2 border-b border-slate-100 pb-4 mb-6">
+                            <i class="fa-solid fa-user-gear text-amber-500 text-xl"></i>
+                            <h3 class="text-lg font-extrabold text-slate-800">تعديل الملف الشخصي والأمان</h3>
+                        </div>
+                        
+                        <form id="settings-form" class="space-y-6">
+                            <div class="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Admin Avatar" class="w-16 h-16 rounded-2xl object-cover border border-slate-300">
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-600 mb-1">صورة الحساب</label>
+                                    <span class="text-xs text-amber-600 font-bold bg-amber-500/10 px-2 py-1 rounded">المشرف الرئيسي (Super Admin)</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-600 mb-2">اسم المشرف (الظاهر)</label>
+                                    <input type="text" id="admin-name-input" value="مدير الوكالة" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-right">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-600 mb-2">رقم هاتف الواتساب للموقع <span class="text-xs font-normal text-slate-400">(لتلقي الرسائل)</span></label>
+                                    <input type="text" value="+212 647 620 876" disabled class="w-full px-4 py-3 bg-slate-100 border border-slate-200 rounded-xl font-bold focus:outline-none text-left dir-ltr text-slate-400 cursor-not-allowed">
+                                </div>
+                            </div>
+
+                            <hr class="border-slate-100 my-4">
+                            <h4 class="text-md font-bold text-slate-800 mb-2"><i class="fa-solid fa-shield-halved text-amber-500 mr-1"></i> تغيير كلمة المرور</h4>
+
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-600 mb-2">كلمة المرور الحالية</label>
+                                    <input type="password" id="current-pass" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-right">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-600 mb-2">كلمة المرور الجديدة</label>
+                                    <input type="password" id="new-pass" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-right">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-600 mb-2">تأكيد كلمة المرور الجديدة</label>
+                                    <input type="password" id="confirm-pass" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-right">
+                                </div>
+                            </div>
+
+                            <div id="settings-success" class="bg-emerald-50 text-emerald-600 text-sm font-bold p-3 rounded-xl text-center hidden">
+                                <i class="fa-solid fa-check-double mr-1"></i> تم حفظ التغييرات بنجاح!
+                            </div>
+                            <div id="settings-error" class="bg-red-50 text-red-500 text-sm font-bold p-3 rounded-xl text-center hidden">
+                                <i class="fa-solid fa-circle-exclamation mr-1"></i> <span id="settings-error-text">حدث خطأ ما!</span>
+                            </div>
+
+                            <div class="flex justify-end pt-2">
+                                <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-extrabold py-3 px-8 rounded-xl shadow-lg shadow-amber-500/20 transition flex items-center gap-2 cursor-pointer">
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                    <span>حفظ التعديلات</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+            </main>
+        </div>
+
+    </div>
+
+    <!-- ==================== جافا سكريبت إدارة لوحة التحكم (المنطق كاملاً) ==================== -->
+    <script>
+        // --- 1. بيانات تجريبية افتراضية (تُحمل أول مرة فقط) ---
+        const initialProperties = [
+            {
+                id: "p1",
+                title: "فيلا عصرية فاخرة بمسبح إنفينيتي",
+                price: 4500000,
+                city: "مراكش",
+                location: "النخيل (Palmeraie)",
+                category: "villa",
+                beds: 5,
+                baths: 6,
+                area: 450,
+                image: "https://images.unsplash.com/photo-1613490493576-7fde63bac894?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                desc: "فيلا ممتازة عصرية جداً مع حديقة شاسعة تطل على جبال الأطلس"
+            },
+            {
+                id: "p2",
+                title: "شقة بريميوم حديثة مجهزة بالكامل",
+                price: 2800000,
+                city: "الدار البيضاء",
+                location: "غوتييه (Gauthier)",
+                category: "apartment",
+                beds: 3,
+                baths: 2.5,
+                area: 145,
+                image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                desc: "شقة تشطيب سوبر ديلوكس في مركز المدينة قرب جميع المرافق"
+            },
+            {
+                id: "p3",
+                title: "بينتهاوس بانورامي مطل على البحر",
+                price: 3900000,
+                city: "طنجة",
+                location: "مالاباطا (Malabata)",
+                category: "apartment",
+                beds: 4,
+                baths: 3,
+                area: 210,
+                image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                desc: "شقة في الطابق العلوي بإطلالة ساحرة 180 درجة على شاطئ البحر مع شرفة عملاقة"
+            },
+            {
+                id: "p4",
+                title: "رياض تقليدي فاخر بوسط المدينة القديمة",
+                price: 3200000,
+                city: "مراكش",
+                location: "المدينة القديمة (Medina)",
+                category: "riad",
+                beds: 4,
+                baths: 4,
+                area: 250,
+                image: "https://images.unsplash.com/photo-1582268611958-ebaf1615627d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                desc: "رياض مرمم بحرفية عالية مع فناء وسيع ومسبح داخلي وسط الزليج المغربي"
+            }
+        ];
+
+        const initialLeads = [
+            {
+                id: "l1",
+                name: "ياسين بن جلون",
+                phone: "0661234567",
+                propertyId: "p1",
+                propertyName: "فيلا عصرية فاخرة بمسبح إنفينيتي",
+                timestamp: "2026-03-01 14:32",
+                status: "contacted", // new | contacted | sold
+                whatsappClicks: 3
+            },
+            {
+                id: "l2",
+                name: "أمينة الادريسي",
+                phone: "0669876543",
+                propertyId: "p2",
+                propertyName: "شقة بريميوم حديثة مجهزة بالكامل",
+                timestamp: "2026-03-03 09:15",
+                status: "new",
+                whatsappClicks: 1
+            },
+            {
+                id: "l3",
+                name: "رشيد العلمي",
+                phone: "0664556677",
+                propertyId: "p1",
+                propertyName: "فيلا عصرية فاخرة بمسبح إنفينيتي",
+                timestamp: "2026-02-28 11:00",
+                status: "sold",
+                whatsappClicks: 5
+            },
+            {
+                id: "l4",
+                name: "خالد صابر",
+                phone: "0662233445",
+                propertyId: "p4",
+                propertyName: "رياض تقليدي فاخر بوسط المدينة القديمة",
+                timestamp: "2026-03-03 16:45",
+                status: "new",
+                whatsappClicks: 1
+            }
+        ];
+
+        // تهيئة الـ LocalStorage إذا كان فارغاً
+        if (!localStorage.getItem('dl_properties')) {
+            localStorage.setItem('dl_properties', JSON.stringify(initialProperties));
+        }
+        if (!localStorage.getItem('dl_leads')) {
+            localStorage.setItem('dl_leads', JSON.stringify(initialLeads));
+        }
+        if (!localStorage.getItem('dl_admin_pass')) {
+            localStorage.setItem('dl_admin_pass', 'admin123'); // كلمة السر الافتراضية
+        }
+        if (!localStorage.getItem('dl_admin_name')) {
+            localStorage.setItem('dl_admin_name', 'مدير الوكالة');
+        }
+
+        // --- 2. إدارة تسجيل الدخول وتأمين اللوحة ---
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            const correctPass = localStorage.getItem('dl_admin_pass');
+            
+            if (user === 'admin' && pass === correctPass) {
+                // تسجيل دخول ناجح
+                document.getElementById('login-overlay').classList.add('hidden');
+                document.getElementById('admin-panel').classList.remove('hidden');
+                document.body.classList.remove('overflow-hidden');
+                
+                // تحميل لوحة التحكم
+                initAdminPanel();
+            } else {
+                // خطأ في الدخول
+                const errorBox = document.getElementById('login-error');
+                errorBox.classList.remove('hidden');
+                setTimeout(() => errorBox.classList.add('hidden'), 5000);
+            }
+        });
+
+        function logout() {
+            document.getElementById('admin-panel').classList.add('hidden');
+            document.getElementById('login-overlay').classList.remove('hidden');
+            document.getElementById('password').value = ''; // مسح الباسوورد
+            window.scrollTo(0,0);
+        }
+
+        // --- 3. التنقل بين التبويبات (Tab Switching) ---
+        function switchTab(tabId) {
+            // إخفاء كل السكاشن
+            const sections = ['dashboard', 'properties', 'leads', 'settings'];
+            sections.forEach(sec => document.getElementById('section-' + sec).classList.add('hidden'));
+            
+            // إزالة الكلاس النشط من جميع الروابط
+            document.querySelectorAll('.sidebar-link').forEach(link => link.classList.remove('active-tab'));
+            
+            // إظهار السكشن المطلوب وتفعيل الرابط
+            document.getElementById('section-' + tabId).classList.remove('hidden');
+            document.getElementById('tab-' + tabId).classList.add('active-tab');
+            
+            // تحديث عنوان الصفحة بالهيدر
+            const titles = {
+                'dashboard': 'الإحصائيات العامة',
+                'properties': 'إضافة وإدارة العقارات',
+                'leads': 'طلبات الزوار والعملاء (Leads)',
+                'settings': 'إعدادات المدير والأمان'
+            };
+            document.getElementById('page-title').innerText = titles[tabId];
+            
+            // إعادة الريندر للبيانات لضمان التحديث
+            if(tabId === 'dashboard' || tabId === 'properties') renderPropertiesTable();
+            if(tabId === 'dashboard' || tabId === 'leads') renderLeadsTable();
+            if(tabId === 'dashboard') renderDashboardStats();
+        }
+
+        // --- 4. معالجة وتجهيز البيانات ---
+        function getProperties() {
+            return JSON.parse(localStorage.getItem('dl_properties')) || [];
+        }
+        function getLeads() {
+            return JSON.parse(localStorage.getItem('dl_leads')) || [];
+        }
+
+        // --- 5. تحديث إحصائيات الداشبورد (Dashboard stats) ---
+        function renderDashboardStats() {
+            const props = getProperties();
+            const leads = getLeads();
+            
+            const newLeads = leads.filter(l => l.status === 'new');
+            const soldLeads = leads.filter(l => l.status === 'sold');
+            const totalClicks = leads.reduce((sum, lead) => sum + (lead.whatsappClicks || 0), 0);
+            
+            // تحديث الأرقام
+            document.getElementById('stat-properties-count').innerText = props.length;
+            document.getElementById('stat-leads-new').innerText = newLeads.length;
+            document.getElementById('stat-leads-sold').innerText = soldLeads.length;
+            document.getElementById('stat-whatsapp-clicks').innerText = totalClicks;
+            
+            // تحديث بادج الطلبات الجديدة في السايدبار
+            const badge = document.getElementById('leads-badge');
+            if (newLeads.length > 0) {
+                badge.innerText = newLeads.length;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+
+            // --- بناء الشارت اليدوي للمدن والمبيعات ---
+            const cityData = {};
+            props.forEach(p => {
+                if(!cityData[p.city]) cityData[p.city] = { count: 0, sold: 0 };
+                cityData[p.city].count++;
+            });
+            // حساب المبيعات حسب المدينة
+            leads.forEach(l => {
+                if(l.status === 'sold') {
+                    const matchedProp = props.find(p => p.id === l.propertyId);
+                    if(matchedProp) {
+                        if(!cityData[matchedProp.city]) cityData[matchedProp.city] = { count: 0, sold: 0 };
+                        cityData[matchedProp.city].sold++;
+                    }
+                }
+            });
+
+            const chartContainer = document.getElementById('chart-container');
+            chartContainer.innerHTML = '';
+            
+            // إيجاد أعلى قيمة للمقارنة بها في الـ Width (الـ 100%)
+            let maxVal = 1;
+            Object.values(cityData).forEach(v => {
+                if (v.count > maxVal) maxVal = v.count;
+            });
+
+            const cities = Object.keys(cityData);
+            if (cities.length === 0) {
+                chartContainer.innerHTML = '<p class="text-center text-slate-400 font-bold py-6">لا توجد بيانات كافية لعرضها حالياً</p>';
+                return;
+            }
+
+            cities.forEach(city => {
+                const data = cityData[city];
+                const propPercentage = Math.round((data.count / maxVal) * 100);
+                
+                chartContainer.innerHTML += `
+                    <div>
+                        <div class="flex justify-between items-center text-xs font-bold text-slate-600 mb-1">
+                            <span>${city}</span>
+                            <span class="text-slate-500">${data.count} عقار <span class="text-emerald-500 mr-2">(${data.sold} مباع)</span></span>
+                        </div>
+                        <div class="w-full bg-slate-100 h-4 rounded-full overflow-hidden flex">
+                            <div class="bg-amber-500 h-full rounded-r-full" style="width: ${propPercentage}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // --- 6. إدارة العقارات (إضافة وعرض وحذف) ---
+        
+        // فورم إضافة عقار جديد
+        document.getElementById('add-property-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const props = getProperties();
+            
+            // تجميع البيانات من الفورم
+            const newProperty = {
+                id: "p" + Math.round(Math.random() * 100000), // توليد ID عشوائي
+                title: document.getElementById('p-title').value,
+                price: parseInt(document.getElementById('p-price').value),
+                city: document.getElementById('p-city').value,
+                location: document.getElementById('p-location').value || document.getElementById('p-city').value,
+                category: document.getElementById('p-category').value,
+                beds: parseInt(document.getElementById('p-beds').value),
+                baths: parseFloat(document.getElementById('p-baths').value),
+                area: parseInt(document.getElementById('p-area').value),
+                image: document.getElementById('p-image').value,
+                desc: document.getElementById('p-desc').value || "عقار رائع في موقع ممتاز."
+            };
+            
+            // حفظ البيانات
+            props.push(newProperty);
+            localStorage.setItem('dl_properties', JSON.stringify(props));
+            
+            // ريسيت للفورم وتحديث الجدول
+            this.reset();
+            renderPropertiesTable();
+            renderDashboardStats();
+            
+            // تنبيه نجاح الإضافة
+            alert('تمت إضافة العقار "' + newProperty.title + '" بنجاح على الموقع!');
+        });
+
+        // ريندر جدول العقارات
+        function renderPropertiesTable() {
+            const props = getProperties();
+            const tbody = document.getElementById('properties-table-body');
+            document.getElementById('property-table-count').innerText = props.length + " عقارات";
+            
+            tbody.innerHTML = '';
+            
+            if (props.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-10 text-center text-slate-400 font-bold">لا توجد عقارات مضافة حالياً. أضف عقارك الأول بالأعلى!</td></tr>`;
+                return;
+            }
+            
+            // عرض العقارات مصفوفة من الأحدث إلى الأقدم
+            props.slice().reverse().forEach(p => {
+                // تهيئة كلاسات ونصوص الأنواع
+                let catText = "فيلا";
+                let catBg = "bg-amber-100 text-amber-700";
+                if(p.category === 'apartment') { catText = "شقة"; catBg = "bg-blue-100 text-blue-700"; }
+                if(p.category === 'riad') { catText = "رياض"; catBg = "bg-purple-100 text-purple-700"; }
+                if(p.category === 'rent') { catText = "إيجار"; catBg = "bg-slate-700 text-white"; }
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50/50 transition">
+                        <td class="p-3 text-center">
+                            <img src="${p.image}" onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=100'" alt="${p.title}" class="w-14 h-12 rounded-lg object-cover mx-auto shadow-sm border border-slate-200">
+                        </td>
+                        <td class="p-4">
+                            <div class="font-bold text-slate-900 leading-snug line-clamp-1">${p.title}</div>
+                            <div class="text-xs text-slate-400 mt-1 flex items-center gap-1"><i class="fa-solid fa-hashtag text-[10px]"></i> ID: ${p.id}</div>
+                        </td>
+                        <td class="p-4">
+                            <span class="text-amber-600 font-extrabold">${p.price.toLocaleString('fr-FR')}</span> <span class="text-xs text-slate-500 font-bold">د.م.</span>
+                        </td>
+                        <td class="p-4">
+                            <div class="text-slate-800 font-bold text-sm mb-1">${p.city}</div>
+                            <span class="${catBg} text-[11px] font-bold px-2 py-0.5 rounded">${catText}</span>
+                        </td>
+                        <td class="p-4 text-xs text-slate-500">
+                            <span class="inline-flex items-center gap-1 bg-slate-100 px-2 py-1 rounded text-slate-700 font-medium">${p.beds} <i class="fa-solid fa-bed text-slate-400"></i></span>
+                            <span class="inline-flex items-center gap-1 bg-slate-100 px-2 py-1 rounded text-slate-700 font-medium">${p.baths} <i class="fa-solid fa-bath text-slate-400"></i></span>
+                            <span class="inline-flex items-center gap-1 bg-slate-100 px-2 py-1 rounded text-slate-700 font-medium">${p.area} م² <i class="fa-solid fa-ruler-combined text-slate-400"></i></span>
+                        </td>
+                        <td class="p-4 text-center">
+                            <button onclick="deleteProperty('${p.id}', '${p.title}')" class="bg-red-50 hover:bg-red-500 text-red-500 hover:text-white border border-red-200 hover:border-red-500 w-9 h-9 rounded-xl transition flex items-center justify-center mx-auto cursor-pointer shadow-sm" title="حذف العقار">
+                                <i class="fa-solid fa-trash-can text-sm"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // حذف عقار من المتصفح
+        window.deleteProperty = function(id, title) {
+            if (confirm(`هل أنت متأكد من رغبتك في حذف عقار "${title}"؟\nهذا الإجراء لا يمكن التراجع عنه!`)) {
+                let props = getProperties();
+                props = props.filter(p => p.id !== id);
+                localStorage.setItem('dl_properties', JSON.stringify(props));
+                
+                // إعادة التحديث
+                renderPropertiesTable();
+                renderDashboardStats();
+            }
+        };
+
+        // --- 7. إدارة الزبائن والطلبات (Leads Management) ---
+        let currentLeadsFilter = 'all';
+
+        window.filterLeads = function(status) {
+            currentLeadsFilter = status;
+            
+            // تفعيل الزر المناسب فقط
+            const filters = ['all', 'new', 'contacted', 'sold'];
+            filters.forEach(f => {
+                const btn = document.getElementById('lead-filter-' + f);
+                if (f === status) {
+                    btn.className = "bg-amber-500 text-white font-bold px-4 py-2 rounded-xl shadow-md shadow-amber-500/10 cursor-pointer";
+                } else {
+                    let colorClass = "hover:bg-slate-100 text-slate-600";
+                    if(f==='new') colorClass = "hover:bg-red-50 hover:text-red-500";
+                    if(f==='contacted') colorClass = "hover:bg-blue-50 hover:text-blue-500";
+                    if(f==='sold') colorClass = "hover:bg-emerald-50 hover:text-emerald-500";
+                    btn.className = `bg-slate-50 border border-slate-200 font-bold px-4 py-2 rounded-xl cursor-pointer text-slate-600 ${colorClass}`;
+                }
+            });
+            
+            renderLeadsTable();
+        };
+
+        // تغيير حالة طلب العميل
+        window.changeLeadStatus = function(leadId, newStatus) {
+            const leads = getLeads();
+            const lead = leads.find(l => l.id === leadId);
+            if (lead) {
+                lead.status = newStatus;
+                localStorage.setItem('dl_leads', JSON.stringify(leads));
+                renderLeadsTable();
+                renderDashboardStats();
+            }
+        };
+
+        function renderLeadsTable() {
+            const leads = getLeads();
+            const tbody = document.getElementById('leads-table-body');
+            tbody.innerHTML = '';
+            
+            // تصفية البيانات
+            let filteredLeads = leads;
+            if (currentLeadsFilter !== 'all') {
+                filteredLeads = leads.filter(l => l.status === currentLeadsFilter);
+            }
+            
+            if (filteredLeads.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-10 text-center text-slate-400 font-bold">لا توجد طلبات عملاء مطابقة لهذا الفلتر.</td></tr>`;
+                return;
+            }
+            
+            // ترتيب الطلبات من الأحدث إلى الأقدم
+            filteredLeads.slice().reverse().forEach(l => {
+                // صياغة رابط واتساب
+                const whatsappPhone = l.phone.replace(/[^0-9]/g, ""); // تنظيف الرقم
+                // تجهيز الرقم ليكون دولياً إذا لم يكن (المغرب 212)
+                let finalPhone = whatsappPhone;
+                if(finalPhone.startsWith('0')) finalPhone = '212' + finalPhone.substring(1);
+                
+                const waLink = `https://wa.me/${finalPhone}?text=مرحباً ${l.name}%20معك%20مدير%20وكالة%20Dar%20Luxe%20العقارية.%20بخصوص%20طلبكم%20حول%20${l.propertyName}%20...`;
+                
+                // تجهيز شكل ومحتوى كلاس الحالة
+                let statusSelect = `
+                    <select onchange="changeLeadStatus('${l.id}', this.value)" class="bg-slate-100 border-none font-bold text-xs px-2.5 py-1.5 rounded-lg focus:outline-none cursor-pointer text-slate-700">
+                        <option value="new" ${l.status === 'new' ? 'selected' : ''}>جديد</option>
+                        <option value="contacted" ${l.status === 'contacted' ? 'selected' : ''}>قيد التواصل</option>
+                        <option value="sold" ${l.status === 'sold' ? 'selected' : ''}>تم البيع</option>
+                    </select>
+                `;
+                
+                let statusClass = "bg-red-100 text-red-600";
+                let statusText = "جديد";
+                if(l.status === 'contacted') { statusClass = "bg-blue-100 text-blue-600"; statusText = "قيد التواصل"; }
+                if(l.status === 'sold') { statusClass = "bg-emerald-100 text-emerald-600"; statusText = "تم البيع"; }
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50/50 transition border-r-4 ${l.status === 'new' ? 'border-r-red-500 bg-red-50/10' : 'border-r-transparent'}">
+                        <td class="p-4">
+                            <div class="font-bold text-slate-900">${l.name}</div>
+                            <div class="text-xs text-slate-400 font-medium flex items-center gap-1.5 mt-1">
+                                <i class="fa-solid fa-bolt text-emerald-500"></i> ${l.whatsappClicks} نقرات على الواتساب
+                            </div>
+                        </td>
+                        <td class="p-4 font-bold text-slate-800 dir-ltr text-right">
+                            ${l.phone}
+                        </td>
+                        <td class="p-4">
+                            <div class="text-slate-800 font-bold text-sm leading-snug line-clamp-1">${l.propertyName}</div>
+                            <div class="text-xs text-amber-600 font-bold mt-1 flex items-center gap-1"><i class="fa-solid fa-hashtag text-[10px]"></i> ID: ${l.propertyId}</div>
+                        </td>
+                        <td class="p-4 text-xs text-slate-400 font-bold">
+                            ${l.timestamp}
+                        </td>
+                        <td class="p-4 text-center">
+                            <div class="flex items-center justify-center gap-2">
+                                <span class="${statusClass} text-[11px] font-bold px-2 py-0.5 rounded">${statusText}</span>
+                                ${statusSelect}
+                            </div>
+                        </td>
+                        <td class="p-4">
+                            <div class="flex items-center justify-center gap-2">
+                                <a href="${waLink}" target="_blank" onclick="incrementClicks('${l.id}')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 shadow-md shadow-emerald-500/10 transition">
+                                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                                    <span>تواصل</span>
+                                </a>
+                                <button onclick="deleteLead('${l.id}', '${l.name}')" class="text-slate-400 hover:text-red-500 bg-slate-100 hover:bg-red-50 w-8 h-8 rounded-lg flex items-center justify-center transition cursor-pointer" title="حذف الطلب">
+                                    <i class="fa-solid fa-trash-can text-xs"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // محاكاة زيادة النقرات عند الضغط على التواصل
+        window.incrementClicks = function(leadId) {
+            const leads = getLeads();
+            const lead = leads.find(l => l.id === leadId);
+            if (lead) {
+                lead.whatsappClicks = (lead.whatsappClicks || 0) + 1;
+                localStorage.setItem('dl_leads', JSON.stringify(leads));
+                // لا داعي لإعادة تحميل الجدول كاملاً لمنع فتح رابط الواتساب والتشويش، سيتم تحديثه في الطلب التالي
+            }
+        };
+
+        // حذف طلب
+        window.deleteLead = function(id, name) {
+            if (confirm(`هل أنت متأكد من حذف طلب العميل "${name}"؟`)) {
+                let leads = getLeads();
+                leads = leads.filter(l => l.id !== id);
+                localStorage.setItem('dl_leads', JSON.stringify(leads));
+                
+                renderLeadsTable();
+                renderDashboardStats();
+            }
+        };
+
+        // --- 8. إعدادات المشرف (تغيير اسم وباسوورد) ---
+        document.getElementById('settings-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const successBox = document.getElementById('settings-success');
+            const errorBox = document.getElementById('settings-error');
+            const errorText = document.getElementById('settings-error-text');
+            
+            successBox.classList.add('hidden');
+            errorBox.classList.add('hidden');
+            
+            const adminName = document.getElementById('admin-name-input').value;
+            const currentPass = document.getElementById('current-pass').value;
+            const newPass = document.getElementById('new-pass').value;
+            const confirmPass = document.getElementById('confirm-pass').value;
+            
+            const savedPass = localStorage.getItem('dl_admin_pass');
+            
+            // حفظ الاسم دائمًا
+            if(adminName.trim() !== '') {
+                localStorage.setItem('dl_admin_name', adminName);
+                document.getElementById('admin-name-display').innerText = adminName;
+            }
+            
+            // التحقق من الباسوورد في حال قرر تغييره
+            if (currentPass !== '' || newPass !== '' || confirmPass !== '') {
+                // يجب ملء كل الحقول
+                if (!currentPass || !newPass || !confirmPass) {
+                    errorText.innerText = "لتغيير كلمة المرور، يجب ملء جميع حقول كلمات المرور!";
+                    errorBox.classList.remove('hidden');
+                    return;
+                }
+                
+                // الباسوورد الحالي خاطئ
+                if (currentPass !== savedPass) {
+                    errorText.innerText = "كلمة المرور الحالية غير صحيحة!";
+                    errorBox.classList.remove('hidden');
+                    return;
+                }
+                
+                // الباسوورد الجديد غير متطابق
+                if (newPass !== confirmPass) {
+                    errorText.innerText = "كلمة المرور الجديدة غير متطابقة مع حقل التأكيد!";
+                    errorBox.classList.remove('hidden');
+                    return;
+                }
+                
+                // الباسوورد قصير
+                if (newPass.length < 5) {
+                    errorText.innerText = "يجب أن تكون كلمة المرور الجديدة 5 رموز أو أكثر!";
+                    errorBox.classList.remove('hidden');
+                    return;
+                }
+                
+                // كل شيء تمام، يتم الحفظ
+                localStorage.setItem('dl_admin_pass', newPass);
+                // تصفير الحقول
+                document.getElementById('current-pass').value = '';
+                document.getElementById('new-pass').value = '';
+                document.getElementById('confirm-pass').value = '';
+            }
+            
+            // نجاح كامل
+            successBox.classList.remove('hidden');
+            setTimeout(() => successBox.classList.add('hidden'), 5000);
+        });
+
+        // --- 9. الوظائف الابتدائية لتشغيل اللوحة ---
+        function initAdminPanel() {
+            // التاريخ الحالي بالهيدر
+            const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+            const months = ['يناير', 'فبراير', 'مارس', 'إبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+            const now = new Date();
+            document.getElementById('current-date').innerText = `${days[now.getDay()]}، ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+            
+            // تحميل البيانات
+            document.getElementById('admin-name-display').innerText = localStorage.getItem('dl_admin_name');
+            document.getElementById('admin-name-input').value = localStorage.getItem('dl_admin_name');
+            
+            renderDashboardStats();
+            renderPropertiesTable();
+            renderLeadsTable();
+        }
+
+    </script>
+
+</body>
+</html>
