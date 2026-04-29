@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dar Luxe | Exclusive Properties in Morocco</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+        }
+        .header-bg {
+            background-image: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.6)), url('https://images.unsplash.com/photo-1600585154526-990dced4db0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center 30%;
+        }
+        .filter-btn.active {
+            background-color: #d97706;
+            color: white;
+            border-color: #d97706;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
+        }
+    </style>
+</head>
+<body class="text-slate-900 overflow-x-hidden">
+
+    <!-- TOP BAR -->
+    <div class="bg-slate-900 text-slate-300 text-sm py-2 px-4 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <a href="tel:+212647620876" class="hover:text-amber-500 transition"><i class="fa-solid fa-phone mr-2 text-amber-500"></i> +212 647 620 876</a>
+                <span class="hidden md:inline text-slate-600">|</span>
+                <span class="hidden md:inline"><i class="fa-solid fa-envelope mr-2 text-amber-500"></i> contact@darluxe.ma</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="hidden sm:inline"><i class="fa-solid fa-clock mr-2 text-amber-500"></i> Reponse < 15 mins</span>
+                <div class="flex gap-3">
+                    <a href="#" class="hover:text-amber-500"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="hover:text-amber-500"><i class="fa-brands fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center gap-2">
+                        <i class="fa-solid fa-hotel text-2xl text-amber-500"></i>
+                        <span class="text-2xl font-extrabold tracking-tight text-slate-900">DAR<span class="text-amber-500">LUXE</span></span>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center gap-8 font-semibold">
+                    <a href="index.html" class="text-slate-600 hover:text-amber-500 transition">Home</a>
+                    <a href="listings.html" class="text-amber-500 border-b-2 border-amber-500 pb-1">Properties</a>
+                    <a href="services.html" class="text-slate-600 hover:text-amber-500 transition">Services</a>
+                </nav>
+
+                <!-- Desktop CTA Button -->
+                <div class="hidden md:flex items-center">
+                    <a href="https://wa.me/212647620876?text=Bonjour,%20je%20souhaite%20avoir%20des%20informations%20sur%20vos%20propriétés." target="_blank" rel="noopener noreferrer" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-md shadow-emerald-500/20 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
+                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                        <span>Contact on WhatsApp</span>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-700 hover:text-amber-500 focus:outline-none" aria-label="Toggle Menu">
+                        <i class="fa-solid fa-bars-staggered text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 px-4 pt-2 pb-6 shadow-xl absolute w-full left-0 z-50">
+            <div class="flex flex-col gap-4 font-semibold text-lg py-4">
+                <a href="index.html" class="text-slate-600 hover:text-amber-500 px-2 py-1 transition">Home</a>
+                <a href="listings.html" class="text-amber-500 px-2 py-1">Properties</a>
+                <a href="services.html" class="text-slate-600 hover:text-amber-500 px-2 py-1 transition">Services</a>
+            </div>
+            <div class="mt-4 pt-4 border-t border-slate-100">
+                <a href="https://wa.me/212647620876?text=Bonjour,%20je%20souhaite%20avoir%20des%20informations%20sur%20vos%20propriétés." target="_blank" rel="noopener noreferrer" class="bg-emerald-500 hover:bg-emerald-600 text-white w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 text-lg shadow-lg">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i>
+                    <span>Contact on WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HEADER SECTION -->
+    <section class="header-bg py-20 text-center relative text-white">
+        <div class="absolute inset-0 bg-slate-900/40"></div>
+        <div class="max-w-4xl mx-auto px-4 relative z-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">Our Premium Properties</h1>
+            <p class="text-xl text-slate-200 mt-4 max-w-2xl mx-auto font-light">
+                Discover your next investment or dream home from our exclusively curated portfolio.
+            </p>
+        </div>
+    </section>
+
+    <!-- FILTER & SEARCH BAR -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
+        <div class="bg-white p-4 rounded-2xl shadow-lg border border-slate-100">
+            <!-- Filter buttons -->
+            <div class="flex flex-wrap items-center justify-center gap-3">
+                <button class="filter-btn active border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold py-2.5 px-6 rounded-xl transition duration-300 cursor-pointer text-sm md:text-base" data-filter="all">
+                    All Properties
+                </button>
+                <button class="filter-btn border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold py-2.5 px-6 rounded-xl transition duration-300 cursor-pointer text-sm md:text-base" data-filter="villa">
+                    Villas
+                </button>
+                <button class="filter-btn border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold py-2.5 px-6 rounded-xl transition duration-300 cursor-pointer text-sm md:text-base" data-filter="apartment">
+                    Apartments
+                </button>
+                <button class="filter-btn border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold py-2.5 px-6 rounded-xl transition duration-300 cursor-pointer text-sm md:text-base" data-filter="riad">
+                    Riads
+                </button>
+                <button class="filter-btn border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold py-2.5 px-6 rounded-xl transition duration-300 cursor-pointer text-sm md:text-base" data-filter="rent">
+                    <i class="fa-solid fa-key text-xs mr-1 text-amber-500"></i> For Rent
+                </button>
+            </div>
+        </div>
+        
+        <!-- Results count -->
+        <p class="text-center text-slate-500 text-sm mt-4 font-medium" id="results-count">
+            Showing all <span class="font-bold text-slate-800">8</span> exclusive listings
+        </p>
+    </div>
+
+    <!-- MAIN LISTINGS GRID -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="properties-grid">
+            
+            <!-- Property 1 (Villa) -->
+            <div class="property-card bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300 flex flex-col group" data-category="villa">
+                <div class="relative overflow-hidden aspect-[4/3]">
+                    <img src="https://images.unsplash.com/photo-1613490493576-7fde63bac894?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Luxury Villa Marrakech" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute top-4 left-4 flex gap-2">
+                        <span class="bg-amber-500 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">For Sale</span>
+                        <span class="bg-slate-900/70 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider"><i class="fa-solid fa-heart text-amber-400 mr-1"></i> Featured</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur text-white px-3 py-1 rounded-lg text-sm flex items-center">
+                        <i class="fa-solid fa-location-dot text-amber-500 mr-2"></i> Marrakech (Palmeraie)
+                    </div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="text-xl font-bold text-slate-900 line-clamp-1 mb-2">Ultra-Modern Luxury Villa</h3>
+                    <p class="text-amber-600 text-2xl font-extrabold mb-3">4,500,000 DH</p>
+                    <p class="text-slate-500 text-sm mb-6 line-clamp-2">Stunning 5-bedroom luxury villa featuring a private infinity pool, massive landscaped garden, and breathtaking views of the Atlas Mountains.</p>
+                    
+                    <div class="flex items-center justify-between border-t border-slate-100 pt-4 mb-6 text-slate-600 text-sm mt-auto">
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-bed text-slate-400"></i> 5 Beds</span>
+                        <span class="h-4 w-px bg-slate-200"></span>
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-bath text-slate-400"></i> 6 Baths</span>
+                        <span class="h-4 w-px bg-slate-200"></span>
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-ruler-combined text-slate-400"></i> 450 m²</span>
+                    </div>
+
+                    <a href="https://wa.me/212647620876?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20la%20Villa%20Moderne%20à%20Marrakech%20(4,5M%20DH)." target="_blank" rel="noopener noreferrer" class="bg-emerald-500 hover:bg-emerald-600 text-white w-full py-3.5 rounded-xl font-extrabold flex items-center justify-center gap-2 shadow-md shadow-emerald-500/10 hover:shadow-lg transition">
+                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                        <span>Contact on WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Property 2 (Apartment) -->
+            <div class="property-card bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300 flex flex-col group" data-category="apartment">
+                <div class="relative overflow-hidden aspect-[4/3]">
+                    <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Modern Apartment Casablanca" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-amber-500 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">For Sale</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur text-white px-3 py-1 rounded-lg text-sm flex items-center">
+                        <i class="fa-solid fa-location-dot text-amber-500 mr-2"></i> Casablanca (Gauthier)
+                    </div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="text-xl font-bold text-slate-900 line-clamp-1 mb-2">Contemporary Premium Apartment</h3>
+                    <p class="text-amber-600 text-2xl font-extrabold mb-3">2,800,000 DH</p>
+                    <p class="text-slate-500 text-sm mb-6 line-clamp-2">Elegant 3-bedroom apartment in the heart of Gauthier. High-end finishings, large windows, bright spacious salon, and 24/7 building security.</p>
+                    
+                    <div class="flex items-center justify-between border-t border-slate-100 pt-4 mb-6 text-slate-600 text-sm mt-auto">
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-bed text-slate-400"></i> 3 Beds</span>
+                        <span class="h-4 w-px bg-slate-200"></span>
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-bath text-slate-400"></i> 2.5 Baths</span>
+                        <span class="h-4 w-px bg-slate-200"></span>
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-ruler-combined text-slate-400"></i> 145 m²</span>
+                    </div>
+
+                    <a href="https://wa.me/212647620876?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20l'Appartement%20Premium%20à%20Casablanca%20(2,8M%20DH)." target="_blank" rel="noopener noreferrer" class="bg-emerald-500 hover:bg-emerald-600 text-white w-full py-3.5 rounded-xl font-extrabold flex items-center justify-center gap-2 shadow-md shadow-emerald-500/10 hover:shadow-lg transition">
+                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                        <span>Contact on WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Property 3 (Apartment/Penthouse) -->
+            <div class="property-card bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300 flex flex-col group" data-category="apartment">
+                <div class="relative overflow-hidden aspect-[4/3]">
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Penthouse Sea View Tangier" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute top-4 left-4 flex gap-2">
+                        <span class="bg-amber-500 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">For Sale</span>
+                        <span class="bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">New</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur text-white px-3 py-1 rounded-lg text-sm flex items-center">
+                        <i class="fa-solid fa-location-dot text-amber-500 mr-2"></i> Tangier (Malabata)
+                    </div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="text-xl font-bold text-slate-900 line-clamp-1 mb-2">Panoramic Ocean View Penthouse</h3>
+                    <p class="text-amber-600 text-2xl font-extrabold mb-3">3,900,000 DH</p>
+                    <p class="text-slate-500 text-sm mb-6 line-clamp-2">Spectacular 4-bedroom penthouse in Malabata with panoramic sea views. Expansive 120m² private terrace, modern kitchen, and ultra-luxurious finishes.</p>
+                    
+                    <div class="flex items-center justify-between border-t border-slate-100 pt-4 mb-6 text-slate-600 text-sm mt-auto">
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-bed text-slate-400"></i> 4 Beds</span>
+                        <span class="h-4 w-px bg-slate-200"></span>
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-bath text-slate-400"></i> 3 Baths</span>
+                        <span class="h-4 w-px bg-slate-200"></span>
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-ruler-combined text-slate-400"></i> 210 m²</span>
+                    </div>
+
+                    <a href="https://wa.me/212647620876?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20le%20Penthouse%20Vue%20Mer%20à%20Tanger%20(3,9M%20DH)." target="_blank" rel="noopener noreferrer" class="bg-emerald-500 hover:bg-emerald-600 text-white w-full py-3.5 rounded-xl font-extrabold flex items-center justify-center gap-2 shadow-md shadow-emerald-500/10 hover:shadow-lg transition">
+                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                        <span>Contact on WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Property 4 (Riad) -->
+            <div class="property-card bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300 flex flex-col group" data-category="riad">
+                <div class="relative overflow-hidden aspect-[4/3]">
+                    <img src="https://images.unsplash.com/photo-1582268611958-ebaf1615627d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Traditional Riad Marrakech" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-amber-500 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">For Sale</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur text-white px-3 py-1 rounded-lg text-sm flex items-center">
+                        <i class="fa-solid fa-location-dot text-amber-500 mr-2"></i> Marrakech (Medina)
+                    </div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="text-xl font-bold text-slate-900 line-clamp-1 mb-2">Authentic Luxury Riad</h3>
+                    <p class="text-amber-600 text-2xl font-extrabold mb-3">3,200,000 DH</p>
+                    <p class="text-slate-500 text-sm mb-6 line-clamp-2">Exquisitely renovated 4-suite Riad featuring a majestic central patio with plunge pool, traditional Zellij tiling, and a large sunny rooftop terrace.</p>
+                    
+                    <div class="flex items-center justify-between border-t border-slate-100 pt-4 mb-6 text-slate-600 text-sm mt-auto">
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-bed text-slate-400"></i> 4 Beds</span>
+                        <span class="h-4 w-px bg-slate-200"></span>
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-bath text-slate-400"></i> 4 Baths</span>
+                        <span class="h-4 w-px bg-slate-200"></span>
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-ruler-combined text-slate-400"></i> 250 m²</span>
+                    </div>
+
+                    <a href="https://wa.me/212647620876?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20le%20Riad%20Authentique%20à%20Marrakech%20(3,2M%20DH)." target="_blank" rel="noopener noreferrer" class="bg-emerald-500 hover:bg-emerald-600 text-white w-full py-3.5 rounded-xl font-extrabold flex items-center justify-center gap-2 shadow-md shadow-emerald-500/10 hover:shadow-lg transition">
+                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                        <span>Contact on WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Property 5 (Villa) -->
+            <div class="property-card bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300 flex flex-col group" data-category="villa">
+                <div class="relative overflow-hidden aspect-[4/3]">
+                    <img src="https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Seafront Villa Agadir" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-amber-500 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">For Sale</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur text-white px-3 py-1 rounded-lg text-sm flex items-center">
+                        <i class="fa-solid fa-location-dot text-amber-500 mr-2"></i> Agadir (Marina)
+                    </div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="text-xl font-bold text-slate-900 line-clamp-1 mb-2">Modern Beachfront Villa</h3>
+                    <p class="text-amber-600 text-2xl font-extrabold mb-3">5,200,000 DH</p>
+                    <p class="text-slate-500 text-sm mb-6 line-clamp-2">Prestigious coastal 4-bedroom villa with direct beach access, floor-to-ceiling glass walls, massive pool, and high-security gated community.</p>
+                    
+                    <div class="flex items-center justify-between border-t border-slate-100 pt-4 mb-6 text-slate-600 text-sm mt-auto">
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-bed text-slate-400"></i> 4 Beds</span>
+                        <span class="h-4 w-px bg-slate-200"></span>
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-bath text-slate-400"></i> 4.5 Baths</span>
+                        <span class="h-4 w-px bg-slate-200"></span>
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-ruler-combined text-slate-400"></i> 380 m²</span>
+                    </div>
+
+                    <a href="https://wa.me/212647620876?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20la%20Villa%20Bord%20de%20Mer%20à%20Agadir%20(5,2M%20DH)." target="_blank" rel="noopener noreferrer" class="bg-emerald-500 hover:bg-emerald-600 text-white w-full py-3.5 rounded-xl font-extrabold flex items-center justify-center gap-2 shadow-md shadow-emerald-500/10 hover:shadow-lg transition">
+                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                        <span>Contact on WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Property 6 (Apartment/Duplex) -->
+            <div class="property-card bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300 flex flex-col group" data-category="apartment">
+                <div class="relative overflow-hidden aspect-[4/3]">
+                    <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Modern Duplex Rabat" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-amber-500 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">For Sale</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur text-white px-3 py-1 rounded-lg text-sm flex items-center">
+                        <i class="fa-solid fa-location-dot text-amber-500 mr-2"></i> Rabat (Hay Riad)
+                    </div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="text-xl font-bold text-slate-900 line-clamp-1 mb-2">Elegant Prestige Duplex</h3>
+                    <p class="text-amber-600 text-2xl font-extrabold mb-3">3,500,000 DH</p>
+                    <p class="text-slate-500 text-sm mb-6 line-clamp-2">Spacious 3-bedroom duplex in a highly sought-after residence. Open plan Italian kitchen, double-height ceilings, private garage, and home automation.</p>
+                    
+                    <div class="flex items-center justify-between border-t border-slate-100 pt-4 mb-6 text-slate-600 text-sm mt-auto">
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-bed text-slate-400"></i> 3 Beds</span>
+                        <span class="h-4 w-px bg-slate-200"></span>
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-bath text-slate-400"></i> 3 Baths</span>
+                        <span class="h-4 w-px bg-slate-200"></span>
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-ruler-combined text-slate-400"></i> 190 m²</span>
+                    </div>
+
+                    <a href="https://wa.me/212647620876?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20le%20Duplex%20Prestige%20à%20Rabat%20(3,5M%20DH)." target="_blank" rel="noopener noreferrer" class="bg-emerald-500 hover:bg-emerald-600 text-white w-full py-3.5 rounded-xl font-extrabold flex items-center justify-center gap-2 shadow-md shadow-emerald-500/10 hover:shadow-lg transition">
+                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                        <span>Contact on WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Property 7 (Rent - Apartment) -->
+            <div class="property-card bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300 flex flex-col group" data-category="rent">
+                <div class="relative overflow-hidden aspect-[4/3]">
+                    <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Modern Studio Marrakech" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-slate-900 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider"><i class="fa-solid fa-key text-amber-400 mr-1"></i> For Rent</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur text-white px-3 py-1 rounded-lg text-sm flex items-center">
+                        <i class="fa-solid fa-location-dot text-amber-500 mr-2"></i> Marrakech (Gueliz)
+                    </div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="text-xl font-bold text-slate-900 line-clamp-1 mb-2">Modern Executive Studio</h3>
+                    <p class="text-amber-600 text-2xl font-extrabold mb-3">7,500 DH <span class="text-xs text-slate-400 font-bold uppercase">/month</span></p>
+                    <p class="text-slate-500 text-sm mb-6 line-clamp-2">Fully furnished, high-end studio in central Gueliz. Rooftop pool in the building, high-speed fiber internet, and walking distance to all cafes/restaurants.</p>
+                    
+                    <div class="flex items-center justify-between border-t border-slate-100 pt-4 mb-6 text-slate-600 text-sm mt-auto">
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-bed text-slate-400"></i> 1 Bed</span>
+                        <span class="h-4 w-px bg-slate-200"></span>
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-bath text-slate-400"></i> 1 Bath</span>
+                        <span class="h-4 w-px bg-slate-200"></span>
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-ruler-combined text-slate-400"></i> 55 m²</span>
+                    </div>
+
+                    <a href="https://wa.me/212647620876?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20la%20location%20du%20Studio%20à%20Marrakech%20(7,500%20DH/mois)." target="_blank" rel="noopener noreferrer" class="bg-emerald-500 hover:bg-emerald-600 text-white w-full py-3.5 rounded-xl font-extrabold flex items-center justify-center gap-2 shadow-md shadow-emerald-500/10 hover:shadow-lg transition">
+                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                        <span>Contact on WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Property 8 (Rent - Office) -->
+            <div class="property-card bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300 flex flex-col group" data-category="rent">
+                <div class="relative overflow-hidden aspect-[4/3]">
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Office Space Casablanca" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-slate-900 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider"><i class="fa-solid fa-key text-amber-400 mr-1"></i> For Rent</span>
+                    </div>
+                    <div class="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur text-white px-3 py-1 rounded-lg text-sm flex items-center">
+                        <i class="fa-solid fa-location-dot text-amber-500 mr-2"></i> Casablanca (Sidi Maarouf)
+                    </div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="text-xl font-bold text-slate-900 line-clamp-1 mb-2">Corporate Office Plateau</h3>
+                    <p class="text-amber-600 text-2xl font-extrabold mb-3">25,000 DH <span class="text-xs text-slate-400 font-bold uppercase">/month</span></p>
+                    <p class="text-slate-500 text-sm mb-6 line-clamp-2">Prime commercial office plateau in Casablanca's business hub (Sidi Maarouf). Open space layout, pre-cabled, server room, and 4 parking spaces.</p>
+                    
+                    <div class="flex items-center justify-between border-t border-slate-100 pt-4 mb-6 text-slate-600 text-sm mt-auto">
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-building text-slate-400"></i> Office</span>
+                        <span class="h-4 w-px bg-slate-200"></span>
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-parking text-slate-400"></i> 4 Spots</span>
+                        <span class="h-4 w-px bg-slate-200"></span>
+                        <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-ruler-combined text-slate-400"></i> 210 m²</span>
+                    </div>
+
+                    <a href="https://wa.me/212647620876?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20la%20location%20du%20Bureau%20à%20Casablanca%20(25,000%20DH/mois)." target="_blank" rel="noopener noreferrer" class="bg-emerald-500 hover:bg-emerald-600 text-white w-full py-3.5 rounded-xl font-extrabold flex items-center justify-center gap-2 shadow-md shadow-emerald-500/10 hover:shadow-lg transition">
+                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                        <span>Contact on WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- No Results Msg -->
+        <div id="no-results" class="hidden text-center py-20">
+            <i class="fa-solid fa-circle-exclamation text-slate-300 text-5xl mb-4"></i>
+            <h3 class="text-xl font-bold text-slate-700">No properties found</h3>
+            <p class="text-slate-500 mt-2 max-w-sm mx-auto">We couldn't find any properties matching that criteria. Please contact us directly and we will find it for you!</p>
+            <a href="https://wa.me/212647620876?text=Bonjour,%20je%20recherche%20un%20bien%20spécifique%20que%20je%20ne%20trouve%20pas%20sur%20le%20site." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-6 rounded-xl mt-6 shadow-md shadow-emerald-500/10">
+                <i class="fa-brands fa-whatsapp text-lg"></i>
+                <span>Ask via WhatsApp</span>
+            </a>
+        </div>
+    </main>
+
+    <!-- CALL TO ACTION (LEAD GENERATION) -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 mb-20">
+        <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-2xl relative">
+            <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');"></div>
+            <div class="relative z-10 px-6 py-12 md:p-16 flex flex-col lg:flex-row items-center justify-between gap-10">
+                <div class="max-w-xl text-center lg:text-left">
+                    <span class="text-amber-500 font-bold uppercase tracking-widest text-sm">Personal Shopper</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-white mt-2">Can't find your ideal property?</h2>
+                    <p class="text-slate-300 mt-4 text-lg">
+                        We have access to an exclusive "Off-Market" portfolio of luxury villas and apartments that are not published publicly. Send us your requirements and we will find it for you.
+                    </p>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-4 items-center w-full lg:w-auto">
+                    <a href="https://wa.me/212647620876?text=Bonjour,%20je%20recherche%20un%20bien%20spécifique%20et%20j'ai%20besoin%20d'aide%20pour%20le%20trouver." target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-lg py-4 px-8 rounded-2xl flex items-center justify-center gap-3 shadow-2xl shadow-emerald-500/20 hover:shadow-xl transition-all duration-300 hover:scale-102">
+                        <i class="fa-brands fa-whatsapp text-2xl"></i>
+                        <span>Start WhatsApp Brief</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+                <!-- Agency Info -->
+                <div>
+                    <a href="index.html" class="flex items-center gap-2 mb-4">
+                        <i class="fa-solid fa-hotel text-2xl text-amber-500"></i>
+                        <span class="text-2xl font-extrabold tracking-tight text-white">DAR<span class="text-amber-500">LUXE</span></span>
+                    </a>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Dar Luxe is your premier real estate partner in Morocco. We specialize in premium residential properties, commercial assets, and full-service property management.
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Navigation</h4>
+                    <ul class="space-y-3 font-medium">
+                        <li><a href="index.html" class="hover:text-amber-500 transition">Home</a></li>
+                        <li><a href="listings.html" class="hover:text-amber-500 transition">Browse Properties</a></li>
+                        <li><a href="services.html" class="hover:text-amber-500 transition">Our Services</a></li>
+                    </ul>
+                </div>
+
+                <!-- Popular Cities -->
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Prime Locations</h4>
+                    <ul class="space-y-3 font-medium">
+                        <li><a href="listings.html" class="hover:text-amber-500 transition">Marrakech Luxury</a></li>
+                        <li><a href="listings.html" class="hover:text-amber-500 transition">Casablanca Premium</a></li>
+                        <li><a href="listings.html" class="hover:text-amber-500 transition">Tangier Coast</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Direct Contact</h4>
+                    <ul class="space-y-3 font-medium text-sm">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot text-amber-500 mt-0.5"></i>
+                            <span>Angle Boulevard Massira & Bd d'Anfa, Casablanca, Maroc</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone text-amber-500"></i>
+                            <a href="tel:+212647620876" class="hover:text-amber-500 transition">+212 647 620 876</a>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-amber-500"></i>
+                            <a href="mailto:contact@darluxe.ma" class="hover:text-amber-500 transition">contact@darluxe.ma</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Divider -->
+            <div class="pt-8 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left text-sm">
+                <p>&copy; 2026 Dar Luxe Real Estate. All rights reserved.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:text-amber-500">Privacy Policy</a>
+                    <a href="#" class="hover:text-amber-500">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FLOATING WHATSAPP BUTTON -->
+    <a href="https://wa.me/212647620876?text=Bonjour,%20je%20souhaite%20contacter%20un%20agent%20immobilier." target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 bg-emerald-500 text-white p-4 rounded-full shadow-2xl hover:bg-emerald-600 transition-all duration-300 z-50 flex items-center justify-center hover:scale-110 group animate-[bounce_3s_infinite]" aria-label="Chat on WhatsApp">
+        <span class="absolute right-full mr-3 bg-slate-900 text-white text-xs font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap shadow-xl">Chat with us</span>
+        <i class="fa-brands fa-whatsapp text-3xl"></i>
+    </a>
+
+    <!-- JAVASCRIPT FOR FILTERING & MOBILE MENU -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Menu Toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if(mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    if (mobileMenu.classList.contains('hidden')) {
+                        icon.className = 'fa-solid fa-bars-staggered text-2xl';
+                    } else {
+                        icon.className = 'fa-solid fa-xmark text-2xl';
+                    }
+                });
+            }
+
+            // Real estate listings filtering
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const propertyCards = document.querySelectorAll('.property-card');
+            const noResults = document.getElementById('no-results');
+            const resultsCountSpan = document.querySelector('#results-count span');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+
+                    const filterValue = this.getAttribute('data-filter');
+                    let visibleCount = 0;
+
+                    propertyCards.forEach(card => {
+                        const cardCategory = card.getAttribute('data-category');
+                        
+                        if (filterValue === 'all' || cardCategory === filterValue) {
+                            card.classList.remove('hidden');
+                            visibleCount++;
+                        } else {
+                            card.classList.add('hidden');
+                        }
+                    });
+
+                    // Update count display
+                    if (resultsCountSpan) {
+                        resultsCountSpan.textContent = visibleCount;
+                    }
+
+                    // Show no results message if needed
+                    if (visibleCount === 0) {
+                        noResults.classList.remove('hidden');
+                        document.getElementById('properties-grid').classList.add('hidden');
+                    } else {
+                        noResults.classList.add('hidden');
+                        document.getElementById('properties-grid').classList.remove('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
